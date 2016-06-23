@@ -53,8 +53,8 @@ public class UpdateService extends Service{
 			editor.putBoolean("InitDB", false);
 			editor.commit();
 //			
-			updateIndex();
-			updateHq();
+//			updateIndex();
+//			updateHq();
 		}
 		if(updateJjjz){
 			updateJjjz("a.txt");
@@ -63,16 +63,16 @@ public class UpdateService extends Service{
 			
 			
 		}
-		SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-		long date = System.currentTimeMillis();  
-		String str_date= format.format(date).substring(11,13);
-		Integer hours = Integer.parseInt(str_date);
-		if(hours>8&&hours<17){
-			updateIndex();
-			updateHq();
-		}
-//		updateIndex();
-//		updateHq();
+//		SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+//		long date = System.currentTimeMillis();  
+//		String str_date= format.format(date).substring(11,13);
+//		Integer hours = Integer.parseInt(str_date);
+//		if(hours>8&&hours<17){			
+//			updateIndex();
+//			updateHq();
+//		}
+		updateIndex();
+		updateHq();
 		updateJjjz = false;
 		AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		int time = pref.getInt("refreshTime", 5000);
@@ -81,7 +81,7 @@ public class UpdateService extends Service{
 		Intent i = new Intent("BroadcastAction");
 		
 		PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-		manager.setExact(AlarmManager.RTC, triggerAtTime, pi);
+		manager.set(AlarmManager.RTC, triggerAtTime, pi);
 		return super.onStartCommand(intent, flags, startId);
 		
 	}

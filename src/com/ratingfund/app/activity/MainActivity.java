@@ -956,11 +956,12 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 				}
 			}
 			if (childFragmentIsShow == 3) {
+//				Log.d("TAG", "·Ö¼¶Ì×Àû");
 				datasM.clear();
 				for (FundM fund : ratingFundDB.loadFundM()) {
 					datasM.add(fund);					
 				}
-
+//				Log.d("TAG", "loadeEnd"+datasM.size());
 				if (datasM.size() > 0) {
 					switch (m_buttonId) {					
 					case 1:
@@ -985,9 +986,10 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 						break;
 					
 					}
-					
+//					Log.d("TAG", "End");
 					Collections.reverse(datasM);
 					adapterM.notifyDataSetChanged();
+//					Log.d("TAG", "End");
 					
 				}
 			}
