@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+		<LinearLayout 
+		 android:layout_width="match_parent"
+         android:layout_height="41dp"
+		 android:orientation="vertical" 
+		 android:showDividers="end|beginning">
+		    <LinearLayout
+		        android:id="@+id/scrollbar_layout_m"
+		        android:layout_width="match_parent"
+		        android:layout_height="40dp"
+		        android:orientation="horizontal"
+		        android:showDividers="end|beginning" >
+		      
+		            <RadioGroup
+		                android:id="@+id/sort_radio_group_m"
+                        android:layout_width="match_parent"
+                         android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:showDividers="end" >
+
+                        <RadioButton
+                            android:id="@+id/fund_m_code_button"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/code"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		        			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+
+                        <RadioButton
+                            android:id="@+id/fund_m_rising_button"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/rising"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		           			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+
+                        <RadioButton
+                            android:id="@+id/fund_m_trademoney_button"
+                           android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/trademoney"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		           			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+
+                        <RadioButton
+                            android:id="@+id/fund_m_sprice_discount_button"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/sprice_discount"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		           			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+
+                        <RadioButton
+                            android:id="@+id/fund_m_bprice_discount_button"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/bprice_discount"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		           			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+
+                       
+                    </RadioGroup>
+
+		     
+		    </LinearLayout>
+
+		    <ImageView
+		        android:layout_width="match_parent"
+		        android:layout_height="1dp"
+		        android:background="#000000" />
+		</LinearLayout>
+
+		
+    <ListView
+        android:id="@+id/scroll_list_m"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:scrollbars="vertical" >
+    </ListView>
+</LinearLayout>

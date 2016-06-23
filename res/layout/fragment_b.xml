@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+   <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="41dp"
+		    android:orientation="vertical"
+		    android:showDividers="end|beginning" >
+
+		    <LinearLayout
+		        android:id="@+id/scrollbar_layout_b"
+		        android:layout_width="match_parent"
+		        android:layout_height="40dp"
+		        android:orientation="horizontal"
+		        android:showDividers="end|beginning" >
+			
+		        <RadioButton
+		            android:id="@+id/fund_b_code_button"
+		            android:layout_width="81dp"
+		            android:layout_height="match_parent"
+		            android:gravity="center"
+		            android:text="@string/code"
+		            android:textColor="#850"
+		            android:checked="false" 
+		            android:button="@null"
+		            android:drawableRight="@drawable/sort_radio_button"
+		            />
+
+		        <com.ratingfund.app.view.CHScrollView
+		            android:id="@+id/item_scroll_title_b"
+		            android:layout_width="0dp"
+		            android:layout_height="match_parent"
+		            android:layout_weight="1"
+		            android:scrollbars="none" >
+		            <RadioGroup
+		                android:id="@+id/sort_radio_group_b"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:showDividers="end" >
+
+                        <RadioButton
+                            android:id="@+id/fund_b_cprice_button"
+                            android:layout_width="67dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/current"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		        			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+
+                        <RadioButton
+                            android:id="@+id/fund_b_rising_button"
+                            android:layout_width="67dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/rising"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		           			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+
+                        <RadioButton
+                            android:id="@+id/fund_b_trademoney_button"
+                            android:layout_width="67dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/trademoney"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		           			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+
+                        <RadioButton
+                            android:id="@+id/fund_b_discount_button"
+                            android:layout_width="67dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/discount"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		           			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+
+                        <RadioButton
+                            android:id="@+id/fund_b_price_leverage_button"
+                            android:layout_width="67dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/price_leverage"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		           			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+
+                        <RadioButton
+                            android:id="@+id/fund_b_interest_rule_button"
+                            android:layout_width="67dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/intrest_rule"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		           			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+                        <RadioButton
+                            android:id="@+id/fund_b_index_button"
+                            android:layout_width="67dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/index"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		           			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+                        <RadioButton
+                            android:id="@+id/fund_b_index_rising_button"
+                            android:layout_width="67dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/index_rising"
+                            android:textColor="#850" 
+                            android:checked="true" 
+		           			android:button="@null"
+		            		android:drawableRight="@drawable/sort_radio_button"/>
+                    </RadioGroup>
+
+		        </com.ratingfund.app.view.CHScrollView>
+		    </LinearLayout>
+
+		    <ImageView
+		        android:layout_width="match_parent"
+		        android:layout_height="1dp"
+		        android:background="#000000" />
+		</LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:minHeight="40dp" >
+
+            <ImageView
+                android:id="@+id/iv_left_no_b"
+                android:layout_width="5dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="80dp"
+                android:background="@drawable/yj_left_not_glide"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/iv_left_ok_b"
+                android:layout_width="5dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="80dp"
+                android:background="@drawable/yj_left_glide"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_right_no_b"
+                android:layout_width="5dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/yj_right_not_glide"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_right_ok_b"
+                android:layout_width="5dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/yj_right_glide"
+                android:visibility="visible" />
+        </RelativeLayout>
+    </FrameLayout>
+       
+    
+    <com.ratingfund.app.view.MyListView
+        android:id="@+id/scroll_list_b"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:scrollbars="vertical" >
+    </com.ratingfund.app.view.MyListView>
+</LinearLayout>

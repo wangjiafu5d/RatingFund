@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:minHeight="50dip"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/item_title"
+        android:layout_width="81dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/code" />
+
+    <com.ratingfund.app.view.CHScrollView
+        android:id="@+id/item_scroll"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scrollbars="none" 
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/item_data1"
+                android:layout_width="67dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/item_data2"
+                android:layout_width="67dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/item_data3"
+                android:layout_width="67dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/item_data4"
+                android:layout_width="67dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/item_data5"
+                android:layout_width="67dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+              />
+
+            <TextView
+                android:id="@+id/item_data6"
+                android:layout_width="67dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                 />
+            <TextView
+                android:id="@+id/item_data7"
+                android:layout_width="67dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                 />
+            <TextView
+                android:id="@+id/item_data8"
+                android:layout_width="67dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                 />
+        </LinearLayout>
+    </com.ratingfund.app.view.CHScrollView>
+
+</LinearLayout>

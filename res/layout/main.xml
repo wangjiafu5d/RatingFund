@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<LinearLayout
+	    android:id="@+id/main_title_bar" 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:background="#e0000000"
+	    >
+	    <!-- <SearchView 
+	        android:id="@+id/search_view"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:iconifiedByDefault="false"
+	        android:queryHint="@string/search_hint"
+	        android:visibility="gone">
+	    </SearchView> -->
+		<TextView 
+		    android:id="@+id/filter_text"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:gravity="start"
+		    android:layout_weight="1"
+		    android:padding="4dp"
+		    android:text="@string/filter"
+		    android:textSize="20sp"
+		    android:textColor="#FFFFFF"
+		    />
+
+		<TextView
+		    android:id="@+id/title"
+		    android:layout_width="0dp"
+		    android:layout_height="match_parent"
+		    android:gravity="center"
+		    android:layout_weight="1"
+		    android:padding="4dp"
+		    android:text="@string/hangqing"
+		    android:textColor="#FFFFFF"
+		    android:textSize="20sp" />
+		
+		<TextView
+		    android:id="@+id/search_text"
+		    android:layout_width="0dp"
+		    android:layout_height="match_parent"
+		    android:layout_gravity="center_vertical"
+		    android:gravity="end|center_vertical"
+		    android:layout_weight="1"
+		    android:padding="4dp"
+		    android:text="@string/search"
+		    android:textColor="#FFFFFF"
+		    android:textSize="20sp" />
+
+	</LinearLayout>
+	<LinearLayout
+	    android:id="@+id/hq_title" 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:background="#90000000"
+	    >
+		<TextView 
+		    android:id="@+id/sh_text"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:gravity="start|center_vertical"
+		    android:layout_weight="1"
+		    android:padding="0dp"
+		    android:text="@string/sh"
+		    android:textSize="15sp"
+		    android:textColor="#FFFFFF"
+		    />
+
+		<TextView
+		    android:id="@+id/sz_text"
+		    android:layout_width="0dp"
+		    android:layout_height="match_parent"
+		    android:gravity="center_horizontal"
+		    android:layout_weight="1"
+		    android:padding="0dp"
+		    android:text="@string/sz"
+		    android:textColor="#FFFFFF"
+		    android:textSize="15sp" />
+		
+		<TextView
+		    android:id="@+id/cy_text"
+		    android:layout_width="0dp"
+		    android:layout_height="match_parent"
+		    android:gravity="end|center_vertical"
+		    android:layout_weight="1"
+		    android:padding="0dp"
+		    android:text="@string/cy"
+		    android:textColor="#FFFFFF"
+		    android:textSize="15sp" />
+
+	</LinearLayout>
+	<FrameLayout
+	    android:id="@+id/fragment_main_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp" 
+	    android:layout_weight="1">
+
+	    <fragment
+	        android:id="@+id/fragment_main"
+	        android:name="com.ratingfund.app.fragment.FragmentHq"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" />
+
+	</FrameLayout>
+    
+
+	<RadioGroup 
+	    android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:showDividers="beginning"
+         android:orientation="horizontal"
+         android:background="#90000000">
+		 <RadioButton
+		     android:id="@+id/hangqing"
+		     android:layout_width="0dp"
+		     android:layout_height="match_parent"
+		     android:layout_weight="1"
+		     android:gravity="center"
+		     android:padding="2dp"
+		     android:textSize="15sp"
+		     android:text="@string/hangqing"
+		     android:button="@null"
+		     android:checked="true"
+		     android:drawableTop="@drawable/hq_selector"
+		     android:textColor="@drawable/buttom_item_color"/>
+
+		 <RadioButton
+		     android:id="@+id/zixuan"
+		     android:layout_width="0dp"
+		     android:layout_height="match_parent"
+		     android:layout_weight="1"
+		     android:drawableTop="@drawable/zx_selector"
+		     android:gravity="center"
+		     android:padding="2dp"
+		     android:text="@string/zixuan"
+		     android:button="@null"
+		     android:textSize="15sp"
+		     android:textColor="@drawable/buttom_item_color" />
+
+		 <RadioButton
+		     android:id="@+id/luntan"
+		     android:layout_width="0dp"
+		     android:layout_height="match_parent"
+		     android:layout_weight="1"
+		     android:drawableTop="@drawable/lt_selector"
+		     android:gravity="center"
+		     android:padding="2dp"
+		     android:text="@string/luntan"
+		     android:button="@null"
+		     android:textSize="15sp" 
+		     android:textColor="@drawable/buttom_item_color"/>
+
+    </RadioGroup>
+	
+
+</LinearLayout>

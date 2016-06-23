@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <LinearLayout 
+	    android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal" >
+	    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/trademoney" />
+	    <EditText 
+	        android:id="@+id/filte_trade_money"
+	        android:layout_width="150dp"
+	        android:layout_height="wrap_content"
+	        android:maxLength="6"
+	        android:inputType="number"/>
+	     <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/money_unit" />
+	    
+	</LinearLayout>
+	<LinearLayout 
+	    android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/intrest_term" />
+	    <Spinner
+	        android:id="@+id/term_set"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:entries="@array/intrest_term" />
+	    
+	</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/intrest_rule" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/intrest3_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:checked="true"
+                android:text="@string/intrest3_0" />
+
+            <CheckBox
+                android:id="@+id/intrest3_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:checked="true"
+                android:text="@string/intrest3_2" />
+
+            <CheckBox
+                android:id="@+id/intrest3_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/intrest3_0"
+                android:checked="true"
+                android:text="@string/intrest3_5" />
+
+            <CheckBox
+                android:id="@+id/intrest4_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/intrest3_2"
+                android:checked="true"
+                android:text="@string/intrest4_0" />
+
+            <CheckBox
+                android:id="@+id/intrest4_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/intrest3_5"
+                android:checked="true"
+                android:text="@string/intrest4_5" />
+
+            <CheckBox
+                android:id="@+id/intrest5_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/intrest4_0"
+                android:checked="true"
+                android:text="@string/intrest5_0" />
+
+            <CheckBox
+                android:id="@+id/others_intrest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/intrest4_5"
+                android:checked="true"
+                android:text="@string/others" />
+        </RelativeLayout>
+    </LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal" >
+
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="30dp"
+	        android:text="@string/refresh_time" />
+
+	    <Spinner
+	        android:id="@+id/refresh_time"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:entries="@array/refresh_time_array" />
+	</LinearLayout>
+	<Button 
+	    android:id="@+id/save_filter"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/button_bg"
+	    android:layout_gravity="center_horizontal"
+	    android:textSize="18sp"
+	    android:paddingStart="30dp"
+	    android:paddingEnd="30dp"
+	    android:text="@string/save"/>
+</LinearLayout>

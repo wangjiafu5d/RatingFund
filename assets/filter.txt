@@ -1,0 +1,9 @@
++3.0%	true
++3.2%	true
++3.5%	true
++4.0%	true
++4.5%	true
++5.0%	true
+ÆäËû	true
+money	1
+term	all

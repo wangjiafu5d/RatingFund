@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+     
+	<RadioGroup 
+	    android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:showDividers="beginning"
+         android:orientation="horizontal" 
+         android:background="#50000000">
+		 <RadioButton
+		     android:id="@+id/fund_a"
+		     android:layout_width="0dp"
+		     android:layout_height="match_parent"
+		     android:layout_weight="1"
+		     android:gravity="center"
+		     android:padding="4dp"
+		     android:textSize="20sp"
+		     android:text="@string/fund_a"
+		     android:checked="true"
+		     android:button="@null"
+		     android:textColor="@drawable/top_item_color" />
+		 <RadioButton
+		     android:id="@+id/fund_b"
+		     android:layout_width="0dp"
+		     android:layout_height="match_parent"
+		     android:layout_weight="1"
+		     android:gravity="center"
+		      android:padding="4dp"
+		      android:textSize="20sp"
+		     android:text="@string/fund_b"
+		     android:button="@null"
+		     android:textColor="@drawable/top_item_color" />
+
+		 <RadioButton
+		     android:id="@+id/fund_m"
+		     android:layout_width="0dp"
+		     android:layout_height="match_parent"
+		     android:layout_weight="1"
+		     android:gravity="center"
+		     android:padding="4dp"
+		      android:textSize="20sp" 
+		     android:text="@string/fund_m"
+		     android:button="@null"
+		     android:textColor="@drawable/top_item_color"  />
+
+    </RadioGroup>
+
+    
+	<FrameLayout
+	    android:id="@+id/fragment_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" >
+
+	    <fragment
+	        android:id="@+id/fragment_list_a"
+	        android:name="com.ratingfund.app.fragment.FragmentA"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" />
+
+	</FrameLayout>
+
+</LinearLayout>
