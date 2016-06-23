@@ -35,6 +35,8 @@ public class ListAdapter extends BaseAdapter {
 	private ListView mListView;
 	private Context context;
 	private HorizontalScrollView mTouchView;
+	public long lastTime;
+	public boolean flag = true;
 
 	public ListAdapter(Context context, List<CHScrollView> mHScrollViews,
 			ListView mListView, List<FundA> fundA,HorizontalScrollView mTouchView) {
@@ -60,6 +62,13 @@ public class ListAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
+	
+	@Override
+	public void notifyDataSetChanged() {
+		flag = false;
+		super.notifyDataSetChanged();
+//		mHScrollViews.remove(mHScrollViews.get(mHScrollViews.size()-1));
+	}
 
 	@Override
 	public synchronized View getView(int position, View convertView, ViewGroup parent) {
@@ -69,19 +78,22 @@ public class ListAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.list_item, null);
 			// 第一次初始化的时候装进来
 			CHScrollView chScrollView = (CHScrollView) convertView.findViewById(R.id.item_scroll);
-			Log.d("TAG","sz"+ mHScrollViews.size());
+//			Log.d("TAG","szA"+ mHScrollViews.size());
 //			CHScrollView scrollView = mHScrollViews.get(0);
 //			int scrollX = scrollView.getScrollX();
-//			chScrollView.scrollTo(scrollX, 0);
-//			SharedPreferences pref = context.getSharedPreferences("data", 0);
-//			boolean flag = pref.getBoolean("allowedAdd", true);
-//			if (flag) {
+//			chScrollView.scrollTo(scrollX, 0);//
+			
+			long thisTime = System.currentTimeMillis();
+			long timeD = thisTime-lastTime;
+//			int limitTime = context.getSharedPreferences("data", Context.MODE_PRIVATE).getInt("refreshTime", 5000);
+//			Log.d("TAGA", ""+timeD);
+
+			if(flag||timeD<100||lastTime==0){
 				addHViews(chScrollView);
-//			} else {
-//				SharedPreferences.Editor editor = context.getSharedPreferences("data", 0).edit();
-//				editor.putBoolean("allowedAdd", true);
-//				editor.commit();
-//			}
+			}
+
+			lastTime = thisTime;
+			flag = true;
 			holder = new ViewHolder();
 			holder.item_title = (TextView) convertView
 					.findViewById(R.id.item_title);
@@ -192,7 +204,7 @@ public class ListAdapter extends BaseAdapter {
 				mListView.post(new Runnable() {
 					@Override
 					public void run() {
-//						Log.d("TAGX", "x"+scrollX);
+						Log.d("TAGX", "x"+scrollX);
 						// 当listView刷新完成之后，把该条移动到最终位置
 						hScrollView.scrollTo(scrollX, 0);
 					}

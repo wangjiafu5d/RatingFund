@@ -77,10 +77,11 @@ public class UpdateService extends Service{
 		AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		int time = pref.getInt("refreshTime", 5000);
 		long triggerAtTime = System.currentTimeMillis()+time;
+		
 		Intent i = new Intent("BroadcastAction");
 		
 		PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-		manager.set(AlarmManager.RTC, triggerAtTime, pi);
+		manager.setExact(AlarmManager.RTC, triggerAtTime, pi);
 		return super.onStartCommand(intent, flags, startId);
 		
 	}

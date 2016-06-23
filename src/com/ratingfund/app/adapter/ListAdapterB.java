@@ -35,6 +35,8 @@ public class ListAdapterB extends BaseAdapter {
 	private ListView mListView;
 	private Context context;
 	private MainActivity activity;
+	public long lastTime;
+	public boolean flag = true;
 
 	public ListAdapterB(Context context, List<CHScrollView> mHScrollViewsB,
 			ListView mListViewB, List<FundB> fundB) {
@@ -59,7 +61,11 @@ public class ListAdapterB extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
-
+	@Override
+	public void notifyDataSetChanged() {
+		flag = false;
+		super.notifyDataSetChanged();
+	}
 	@Override
 	public synchronized View getView(int position, View convertView, ViewGroup parent) {
 
@@ -68,16 +74,15 @@ public class ListAdapterB extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.list_item, null);
 			// 第一次初始化的时候装进来
 			CHScrollView chScrollView = (CHScrollView) convertView.findViewById(R.id.item_scroll);
-			Log.d("TAG","sz"+ mHScrollViewsB.size());
-//			SharedPreferences pref = context.getSharedPreferences("data", 0);
-//			boolean flag = pref.getBoolean("allowedAdd", true);
-//			if (flag) {
+//			Log.d("TAG","sz"+ mHScrollViewsB.size());
+			long thisTime = System.currentTimeMillis();
+			long timeD = thisTime-lastTime;
+//			int limitTime = context.getSharedPreferences("data", Context.MODE_PRIVATE).getInt("refreshTime", 5000);
+			if(flag||timeD<100||lastTime==0){
 				addHViews(chScrollView);
-//			} else {
-//				SharedPreferences.Editor editor = context.getSharedPreferences("data", 0).edit();
-//				editor.putBoolean("allowedAdd", true);
-//				editor.commit();
-//			}			
+			}
+			flag =true;
+			lastTime = thisTime;
 			holder = new ViewHolder();
 			holder.item_title = (TextView) convertView
 					.findViewById(R.id.item_title);

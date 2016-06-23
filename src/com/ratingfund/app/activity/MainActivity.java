@@ -182,20 +182,20 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
         registerReceiver(updateReceiver, filter);        
      
         
-//		Intent i = new Intent(this, UpdateService.class);
-//		startService(i);
+		Intent i = new Intent(this, UpdateService.class);
+		startService(i);
 	}
 	@Override
 	protected void onStart() {
-		Intent i = new Intent(this, UpdateService.class);
-		startService(i);		
+//		Intent i = new Intent(this, UpdateService.class);
+//		startService(i);		
 		super.onStart();
 	}
 	
 	@Override
 	protected void onStop() {
-		Intent i = new Intent(this, UpdateService.class);
-		stopService(i);
+//		Intent i = new Intent(this, UpdateService.class);
+//		stopService(i);
 		super.onStop();
 	}
 	@Override
@@ -893,12 +893,11 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 				default:
 					break;
 				}
-
+				
 				Collections.reverse(datas);
-//				SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
-//				editor.putBoolean("allowedAdd", false);
-//				editor.commit();
 				adapter.notifyDataSetChanged();
+//				mHScrollViews.remove(mHScrollViews.get(mHScrollViews.size()-1));
+				
 			}
 		}
 			if (childFragmentIsShow == 2) {
