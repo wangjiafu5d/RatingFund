@@ -137,12 +137,24 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:entries="@array/refresh_time_array" />
+	    
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="30dp"
+	        android:text="@string/refresh_mode" />
+
+	    <Spinner
+	        android:id="@+id/refresh_mode"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:entries="@array/refresh_mode_array" />
 	</LinearLayout>
 	<Button 
 	    android:id="@+id/save_filter"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:background="@drawable/button_bg"
+	    android:background="@drawable/buttom_item_color2"
 	    android:layout_gravity="center_horizontal"
 	    android:textSize="18sp"
 	    android:paddingStart="30dp"

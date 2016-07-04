@@ -13,8 +13,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.ratingfund.app.R;
+import com.ratingfund.app.activity.MainActivity;
 import com.ratingfund.app.db.RatingFundDB;
 import com.ratingfund.app.model.FundB;
 import com.ratingfund.app.util.HttpCallbackListener;
@@ -27,6 +31,8 @@ import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.os.Binder;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.media.MediaBrowserCompat.MediaItem.Flags;
@@ -35,16 +41,28 @@ import android.util.Log;
 
 
 public class UpdateService extends Service{
-	boolean updateJjjz = true;
+	boolean firstUpdate = true;
+	private StringBuilder fundAUrl = new StringBuilder();
+	private StringBuilder fundBUrl = new StringBuilder();
+	private StringBuilder indexUrl = new StringBuilder();
+	private String sinaUrl;
+	private RefreshBinder mBinder = new RefreshBinder();
+	private boolean mode;
 	@Override
 	public IBinder onBind(Intent intent) {
 		
-		return null;
+		return mBinder;
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
+		sinaUrl = getString(R.string.sina_interface);
 		SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
+		if (pref.getString("mode", "部分刷新").equals("部分刷新")) {
+			mode = false;
+		} else {
+			mode = true;
+		}
 		boolean flag = pref.getBoolean("InitDB", true);
 		if(flag){
 			InitDateBase();
@@ -56,12 +74,10 @@ public class UpdateService extends Service{
 //			updateIndex();
 //			updateHq();
 		}
-		if(updateJjjz){
+		if(firstUpdate){
 			updateJjjz("a.txt");
 			updateJjjz("b.txt");
-			updateJjjz("m.txt");
-			
-			
+			updateJjjz("m.txt");			
 		}
 //		SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 //		long date = System.currentTimeMillis();  
@@ -71,9 +87,10 @@ public class UpdateService extends Service{
 //			updateIndex();
 //			updateHq();
 //		}
+		
 		updateIndex();
 		updateHq();
-		updateJjjz = false;
+		firstUpdate = false;
 		AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		int time = pref.getInt("refreshTime", 5000);
 		long triggerAtTime = System.currentTimeMillis()+time;
@@ -88,18 +105,23 @@ public class UpdateService extends Service{
 	public void updateHq(){
 
 		try {
+			StringBuilder str = new StringBuilder();
+//			Log.d("TAG2", "firstUpdate "+ firstUpdate);
+			if(firstUpdate||mode){
 			BufferedReader br = new BufferedReader(new InputStreamReader(getResources().getAssets().open("a.txt")));
 			String temp;
-			StringBuilder str = new StringBuilder();
-			str.append(getString(R.string.sina_interface));
+			str.append(sinaUrl);
 			while ((temp=br.readLine())!=null) {
-				if(temp.substring(0, 1).equals("1")){
-					str.append("sz").append(temp).append(",");
-				}else {
-					str.append("sh").append(temp).append(",");
-				}
+				urlBuilder(temp, str);
 			}
 			br.close();
+			}else {
+//				Log.d("TAG2", "fundAUrlStart ");
+				getRefreshList();
+				str = fundAUrl;
+//				Log.d("TAG2", "fundAUrl "+ fundAUrl);
+			}
+			
 //			
 			HttpUtil.sendHttpRequest(str.toString(), new HttpCallbackListener() {
 				
@@ -119,10 +141,11 @@ public class UpdateService extends Service{
 		}
 		
 		try {
+			StringBuilder str = new StringBuilder();
+			if(firstUpdate||mode){
 			BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("b.txt")));
 			String temp;
-			StringBuilder str = new StringBuilder();
-			str.append("http://hq.sinajs.cn/list=");
+			str.append(sinaUrl);
 			while ((temp=br.readLine())!=null) {
 				if(temp.substring(0, 1).equals("1")){
 					str.append("sz").append(temp).append(",");
@@ -131,6 +154,10 @@ public class UpdateService extends Service{
 				}
 			}
 			br.close();
+			}else {
+				getRefreshList();
+				str = fundBUrl;
+			}
 
 			HttpUtil.sendHttpRequest(str.toString(), new HttpCallbackListener() {
 				
@@ -145,10 +172,11 @@ public class UpdateService extends Service{
 				public void onError(Exception e) {
 				}
 			});
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	
+		
 	}
 
 	public synchronized void updateJjjz(final String file) {
@@ -183,21 +211,20 @@ public class UpdateService extends Service{
 	}
 	public void updateIndex(){
 		try {
+			StringBuilder str = new StringBuilder();
+			if(firstUpdate||mode){
 			BufferedReader br = new BufferedReader(new InputStreamReader(getResources().getAssets().open("index.txt")));
 			String temp;
-			StringBuilder str = new StringBuilder();
 			str.append(getString(R.string.sina_interface));
 			while ((temp=br.readLine())!=null) {
-				if(temp.substring(0, 1).equals("3")){
-					str.append("sz").append(temp).append(",");
-				}else if(temp.substring(0, 1).equals("0")){
-					str.append("sh").append(temp).append(",");
-				}else if(temp.substring(0, 1).equals("H")){
-					str.append("rt_hk").append(temp).append(",");
-				}
+				indexUrlBuilder(temp, str);
 			}
 			br.close();
-//			
+			}else {
+				getRefreshList();
+				str = indexUrl;
+			}
+			str.append("sh000001,sz399001,sz399006");
 			HttpUtil.sendHttpRequest(str.toString(), new HttpCallbackListener() {
 				
 				@Override
@@ -265,6 +292,73 @@ public class UpdateService extends Service{
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	public void getRefreshList(){
+		fundAUrl.delete(0, fundAUrl.length());
+		fundBUrl.delete(0, fundBUrl.length());
+		indexUrl.delete(0, indexUrl.length());
+		List<String> list = MainActivity.displayList;
+//		Log.d("TAG", "displayList "+ list.size());
+		Set<String> fundASet = new HashSet<String>();
+		Set<String> fundBSet = new HashSet<String>();
+		Set<String> indexSet = new HashSet<String>();
+		for (String str : list) {
+			Cursor cursor = RatingFundDB.getInstacnce(getApplicationContext()).db.query("FundA", null,
+					"fund_code=? or fund_b_code=? or fund_m_code=?",
+					new String[] {str,str,str}, null, null, null);
+			if (cursor.moveToFirst()) {
+				do {
+//					Log.d("TAG", "cursor "+cursor.getString(cursor.getColumnIndex("fund_code")) );
+					fundASet.add(cursor.getString(cursor.getColumnIndex("fund_code")));
+					fundBSet.add(cursor.getString(cursor.getColumnIndex("fund_b_code")));
+					indexSet.add(cursor.getString(cursor.getColumnIndex("hy_index")));
+				} while (cursor.moveToNext());
+			}
+		}
+//		Log.d("TAG", "sinaUrl "+ sinaUrl);
+//		Log.d("TAG", "size "+ fundASet.size());
+		fundAUrl.append(sinaUrl);
+		for (String strA : fundASet) {
+			urlBuilder(strA, fundAUrl);
+		}
+		fundBUrl.append(sinaUrl);
+		for (String strB : fundBSet) {
+			urlBuilder(strB, fundBUrl);
+		}
+		indexUrl.append(sinaUrl);
+		for (String strI : indexSet) {
+			indexUrlBuilder(strI, indexUrl);			
+		}
+
+	}
+	public StringBuilder urlBuilder(String temp,StringBuilder str){
+		if(temp.substring(0, 1).equals("1")){
+			str.append("sz").append(temp).append(",");
+		}else {
+			str.append("sh").append(temp).append(",");
+		}
+		return str;
+	}
+	public StringBuilder indexUrlBuilder(String temp,StringBuilder str){
+		if(temp.substring(0, 1).equals("3")){
+			str.append("sz").append(temp).append(",");
+		}else if(temp.substring(0, 1).equals("0")){
+			str.append("sh").append(temp).append(",");
+		}else if(temp.substring(0, 1).equals("H")){
+			str.append("rt_hk").append(temp).append(",");
+		}
+		return str;
+	}
+	
+	public class RefreshBinder extends Binder{
+		
+		public void startRefresh(){
+			firstUpdate = true;
+			updateHq();
+			updateIndex();
+			firstUpdate = false;
+//			Log.d("TAG7", "ref");
 		}
 	}
 }

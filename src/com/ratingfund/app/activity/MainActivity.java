@@ -17,11 +17,12 @@ import com.ratingfund.app.fragment.FragmentB;
 import com.ratingfund.app.fragment.FragmentLunTan;
 import com.ratingfund.app.fragment.FragmentM;
 import com.ratingfund.app.fragment.FragmentZiXuan;
-
+import com.ratingfund.app.model.Fund;
 import com.ratingfund.app.model.FundA;
 import com.ratingfund.app.model.FundB;
 import com.ratingfund.app.model.FundM;
 import com.ratingfund.app.service.UpdateService;
+import com.ratingfund.app.service.UpdateService.RefreshBinder;
 import com.ratingfund.app.util.CPriceComparator;
 import com.ratingfund.app.util.CodeComparator;
 import com.ratingfund.app.util.CorrectedIntrestComparator;
@@ -43,16 +44,18 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
 import android.content.BroadcastReceiver;
-
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -64,6 +67,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -81,6 +85,8 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 	
 	public ListView mListView;
 	public ListView mListViewB;
+	public ListView mListViewM;
+	public ListView mListViewZ;
 	public RatingFundDB ratingFundDB;
 	
 	private ListAdapter adapter;
@@ -111,7 +117,7 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 	private Fragment fragmentLunTan;
 	
 	private WebView webView;
-	private TextView filter_text,title,search_text;
+	private TextView filter_text,title,refresh_button,search_text;
 	private TextView sh_text,sz_text,cy_text;
 	
 	private int fragmentIsShow = 1;
@@ -136,16 +142,31 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 	RadioButton fund_a_intrest_rule_button;
 	RadioButton fund_a_index_button;
 	RadioButton fund_a_index_rising_button;
-	List<RadioButton> fund_a_radioButton_list = new ArrayList<RadioButton>();
 	
-	
+	List<RadioButton> fund_a_radioButton_list = new ArrayList<RadioButton>();	
 	public List<RadioButton> fund_b_radioButton_list = new ArrayList<RadioButton>();
 	
 	RadioButton hangqing;
 	RadioButton zixuan;	
 	RadioButton luntan;
 	
-	LinearLayout main_title_bar;
+	FrameLayout main_title_bar;
+	
+	private UpdateService.RefreshBinder refreshBinder;
+	
+	private ServiceConnection connection = new ServiceConnection() {
+		
+		@Override
+		public void onServiceDisconnected(ComponentName name) {			
+		}
+		
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			refreshBinder = (RefreshBinder) service;			
+		}
+	};
+	
+	public static List<String> displayList = new ArrayList<String>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -184,6 +205,7 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
         
 		Intent i = new Intent(this, UpdateService.class);
 		startService(i);
+		bindService(i, connection, BIND_AUTO_CREATE);
 	}
 	@Override
 	protected void onStart() {
@@ -229,7 +251,9 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 	protected void onDestroy() {
 		
 		unregisterReceiver(updateReceiver);		
-		stopService(new Intent(this, UpdateService.class));		
+		unbindService(connection);
+		Intent stopIntent = new Intent(this,UpdateService.class);
+		stopService(stopIntent);
 		super.onDestroy();
 	}
 	
@@ -238,7 +262,7 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 		leftNo = (ImageView) findViewById(R.id.iv_left_no);
 		rightOk = (ImageView) findViewById(R.id.iv_right_ok);
 		rightNo = (ImageView) findViewById(R.id.iv_right_no);
-		main_title_bar = (LinearLayout) findViewById(R.id.main_title_bar);
+		main_title_bar = (FrameLayout) findViewById(R.id.main_title_bar);
 		
 		
 		CHScrollView headerScroll = (CHScrollView) findViewById(R.id.item_scroll_title);
@@ -252,6 +276,7 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 		title = (TextView) findViewById(R.id.title);
 		search_text = (TextView) findViewById(R.id.search_text);
 		filter_text = (TextView) findViewById(R.id.filter_text);
+		refresh_button = (TextView) findViewById(R.id.refresh_button);
 		sh_text = (TextView) findViewById(R.id.sh_text);
 		sz_text = (TextView) findViewById(R.id.sz_text);
 		cy_text = (TextView) findViewById(R.id.cy_text);
@@ -329,6 +354,7 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 		luntan.setOnClickListener(this);
 		filter_text.setOnClickListener(this);
 		search_text.setOnClickListener(this);
+		refresh_button.setOnClickListener(this);
 		
 		
 		mListView = (ListView) findViewById(R.id.scroll_list_a);
@@ -355,13 +381,13 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 			
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				 if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {   
-			             positionA = view.getFirstVisiblePosition();
-//			             Log.d("TAG", ""+position);
-//			                scrolledX = mListView.getScrollX();   
-//			                scrolledY = mListView.getScrollY();   
-			              
-			        }   
+				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+//					getDisplayList(view,datas);
+					// Log.d("TAG", ""+position);
+					// scrolledX = mListView.getScrollX();
+					// scrolledY = mListView.getScrollY();
+
+				}
 				
 			}
 			
@@ -381,14 +407,26 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 		case R.id.fund_a:
 			showFragment(1);
 			childFragmentIsShow = 1;
+			try {
+				refreshListView();
+			} catch (Exception e) {
+			}
 			break;
 		case R.id.fund_b:
 			showFragment(2);
 			childFragmentIsShow = 2;
+			try {
+				refreshListView();
+			} catch (Exception e) {
+			}
 			break;
 		case R.id.fund_m:
 			showFragment(3);
 			childFragmentIsShow = 3;
+			try {
+				refreshListView();
+			} catch (Exception e) {
+			}
 			break;
 		case R.id.hangqing:
 			main_title_bar.setVisibility(View.VISIBLE);
@@ -402,6 +440,10 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 			title.setText(R.string.zixuan);
 			showFragment2(2);
 			fragmentIsShow = 2;
+			try {
+				refreshListView();
+			} catch (Exception e) {
+			}
 			break;
 		case R.id.luntan:
 //			search.setVisibility(View.GONE);
@@ -418,6 +460,9 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 			Intent search = new Intent(this, SearchActivity.class);
 			
 			startActivity(search);
+			break;
+		case R.id.refresh_button:			
+			refreshBinder.startRefresh();
 			break;
 //			if (search_text.getText() == "ËÑË÷") {
 //				filter.setVisibility(View.GONE);
@@ -471,7 +516,7 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 		default:
 			break;
 		}
-		
+//		getDisplayList(mListView, datas);
 		adapter.notifyDataSetChanged();
 	}
 	
@@ -844,11 +889,12 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 	}
 	
 	public void refreshListView(){
-//		Log.d("TAG", ""+childFragmentIsShow);
+//		Log.d("TAG6", "childFragmentIsShow "+childFragmentIsShow);		
 		if (childFragmentIsShow == 1) {
 			datas.clear();
 			for (FundA fund : ratingFundDB.loadFundA()) {
 				datas.add(fund);
+//				Log.d("TAG6", "datas.size "+datas.size());	
 			}
 
 			if (datas.size() > 0) {
@@ -1173,6 +1219,25 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 			}
 		});
 		dialog.show();
+	}
+	public void getDisplayList(AbsListView view,List<? extends Fund> srcList){
+		if (srcList.size() > 0) {
+			displayList.clear();
+			List<? extends Fund> tempList = new ArrayList<Fund>();
+			try {
+				tempList = srcList.subList(view.getFirstVisiblePosition(), view.getLastVisiblePosition() + 2);
+			} catch (Exception e) {
+				
+			}
+			
+			for (Fund fund : tempList) {
+				displayList.add(fund.getFund_code());
+			}
+			for (String str : displayList) {
+//				Log.d("TAG", str);
+			}
+//			Log.d("TAG6", "displayList.size()" + displayList.size());
+		}
 	}
 	
 }

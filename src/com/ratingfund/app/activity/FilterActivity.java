@@ -29,7 +29,7 @@ public class FilterActivity extends Activity implements OnClickListener{
 	String time;
 	String term;
 	EditText edit;
-	Spinner timeSpinner,termSpinner;
+	Spinner timeSpinner,termSpinner,modeSpinner;
 	Button button;
 	CheckBox intrest3_0;
 	CheckBox intrest3_2;
@@ -52,6 +52,7 @@ public class FilterActivity extends Activity implements OnClickListener{
 		edit = (EditText) findViewById(R.id.filte_trade_money);
 		termSpinner = (Spinner) findViewById(R.id.term_set);
 		timeSpinner = (Spinner) findViewById(R.id.refresh_time);
+		modeSpinner = (Spinner) findViewById(R.id.refresh_mode);
 		SharedPreferences share = getSharedPreferences("data", MODE_PRIVATE);		
 		switch (share.getInt("refreshTime", 5000)) {
 		case 1000:
@@ -75,6 +76,11 @@ public class FilterActivity extends Activity implements OnClickListener{
 
 		default:
 			break;
+		}
+		if (share.getString("mode", "部分刷新").equals("部分刷新")) {
+			modeSpinner.setSelection(0, true);
+		} else {
+			modeSpinner.setSelection(1, true);
 		}
 		
 		button = (Button) findViewById(R.id.save_filter);
@@ -134,8 +140,10 @@ public class FilterActivity extends Activity implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.save_filter:
 			time = (String) timeSpinner.getSelectedItem();
+			String mode = (String) modeSpinner.getSelectedItem();
 			int cycle = (Integer.valueOf(time.substring(0, time.length()-1))*1000);
 			SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
+			editor.putString("mode", mode);
 			editor.putInt("refreshTime",cycle);
 			editor.commit();
 			
@@ -150,27 +158,7 @@ public class FilterActivity extends Activity implements OnClickListener{
 						new String[] { Integer.toString(i) });
 				i++;
 			}
-			button.setBackground(null);
-			button.setBackgroundColor(Color.GRAY);
-			new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					runOnUiThread(new Runnable() {
 						
-						@Override
-						public void run() {
-							button.setBackgroundResource(R.drawable.button_bg);
-							
-						}
-					});
-				}
-			}).start();
 			break;
 		case R.id.intrest3_0:
 			if(intrest3_0.isChecked()){

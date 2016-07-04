@@ -31,11 +31,11 @@ public class ListAdapterM extends BaseAdapter {
 
 	private List<FundM> fundM;
 	private LayoutInflater inflater;	
-
+	private MainActivity activity;
 	
 
 	public ListAdapterM(Context context, List<FundM> fundM) {
-		
+		activity = (MainActivity) context;
 		this.inflater = LayoutInflater.from(context);		
 		this.fundM = fundM;
 	}
@@ -103,7 +103,7 @@ public class ListAdapterM extends BaseAdapter {
 			holder.item_data5.setTextColor(Color.RED);
 			
 		}
-
+		activity.getDisplayList(activity.mListViewM, activity.datasM);
 		return convertView;
 	}
 

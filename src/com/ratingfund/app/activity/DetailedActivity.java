@@ -193,14 +193,14 @@ public class DetailedActivity extends Activity implements OnClickListener{
 				String category = cursor.getString(cursor.getColumnIndex("fund_category"));
 				if(category.equals("a")){
 					buttonA.setText(getString(R.string.deletefrom_self_choose));
-					buttonA.setBackgroundColor(Color.GRAY);
+					buttonA.setBackgroundResource(R.drawable.gradient_bg2);
 				}else if(category.equals("b")){
 					buttonB.setText(getString(R.string.deletefrom_self_choose));
-					buttonB.setBackgroundColor(Color.GRAY);
+					buttonB.setBackgroundResource(R.drawable.gradient_bg2);
 				}
 				else if(category.equals("m")){
 					buttonM.setText(getString(R.string.deletefrom_self_choose));
-					buttonM.setBackgroundColor(Color.GRAY);
+					buttonM.setBackgroundResource(R.drawable.gradient_bg2);
 				}
 				
 				
@@ -239,11 +239,11 @@ public class DetailedActivity extends Activity implements OnClickListener{
 			values.put("fund_category", category);
 			RatingFundDB.getInstacnce(getApplicationContext()).db.insert("Zixuan", null, values);
 			button.setText(getString(R.string.deletefrom_self_choose));
-			button.setBackgroundColor(Color.GRAY);
+			button.setBackgroundResource(R.drawable.gradient_bg2);
 		}else {
 			RatingFundDB.getInstacnce(getApplicationContext()).db.delete("Zixuan", "fund_code=?", new String[]{code});
 			button.setText(getString(R.string.addto_self_choose));
-			button.setBackgroundResource(R.drawable.button_bg);
+			button.setBackgroundResource(R.drawable.gradient_bg);
 		}
 	}
 	

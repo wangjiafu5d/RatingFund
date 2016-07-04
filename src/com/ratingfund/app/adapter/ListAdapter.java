@@ -33,14 +33,14 @@ public class ListAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private List<CHScrollView> mHScrollViews;
 	private ListView mListView;
-	private Context context;
+	MainActivity activity;
 	private HorizontalScrollView mTouchView;
 	public long lastTime;
 	public boolean flag = true;
 
 	public ListAdapter(Context context, List<CHScrollView> mHScrollViews,
 			ListView mListView, List<FundA> fundA,HorizontalScrollView mTouchView) {
-		this.context = context;
+		activity = (MainActivity) context;
 		this.inflater = LayoutInflater.from(context);
 		this.mHScrollViews = mHScrollViews;
 		this.mListView = mListView;
@@ -65,14 +65,18 @@ public class ListAdapter extends BaseAdapter {
 	
 	@Override
 	public void notifyDataSetChanged() {
-		flag = false;
-		super.notifyDataSetChanged();
-//		mHScrollViews.remove(mHScrollViews.get(mHScrollViews.size()-1));
+		//防止刷新数据时，向滚动列表错误加入item view；
+		synchronized (this) {
+			flag = false;
+			super.notifyDataSetChanged();
+		}
+
 	}
 
 	@Override
-	public synchronized View getView(int position, View convertView, ViewGroup parent) {
-
+	public View getView(int position, View convertView, ViewGroup parent) {
+		synchronized (this) {			
+		
 		ViewHolder holder = null;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.list_item, null);
@@ -179,7 +183,9 @@ public class ListAdapter extends BaseAdapter {
 //				
 //			}
 //		});
+		activity.getDisplayList(mListView, activity.datas);
 		return convertView;
+		}
 	}
 
 	private class ViewHolder {

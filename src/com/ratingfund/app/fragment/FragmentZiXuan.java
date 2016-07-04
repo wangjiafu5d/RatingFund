@@ -51,7 +51,8 @@ public class FragmentZiXuan extends Fragment implements OnClickListener {
 		view =inflater.inflate(R.layout.fragment_zixuan, container, false);
 		radioButton_list = new ArrayList<RadioButton>();
 		
-		listView = (ListView) view.findViewById(R.id.self_choose_list);		
+		listView = (ListView) view.findViewById(R.id.self_choose_list);	
+		
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -65,7 +66,7 @@ public class FragmentZiXuan extends Fragment implements OnClickListener {
 		});
 
 		main = (MainActivity) getActivity();
-
+		main.mListViewZ = listView;
 		adapterZ = new ListAdapterZ(main,main.datasZ);
 		main.adapterZ = adapterZ;
 		listView.setAdapter(adapterZ);

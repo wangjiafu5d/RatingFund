@@ -40,7 +40,7 @@ public class ListAdapterB extends BaseAdapter {
 
 	public ListAdapterB(Context context, List<CHScrollView> mHScrollViewsB,
 			ListView mListViewB, List<FundB> fundB) {
-		this.context = context;
+		activity = (MainActivity) context;
 		this.inflater = LayoutInflater.from(context);
 		this.mHScrollViewsB = mHScrollViewsB;
 		this.mListView = mListViewB;
@@ -63,12 +63,17 @@ public class ListAdapterB extends BaseAdapter {
 	}
 	@Override
 	public void notifyDataSetChanged() {
-		flag = false;
-		super.notifyDataSetChanged();
+		// 防止刷新数据时，向滚动列表错误加入item view；
+		synchronized (this) {
+			flag = false;
+			super.notifyDataSetChanged();
+		}
 	}
 	@Override
-	public synchronized View getView(int position, View convertView, ViewGroup parent) {
-
+	public View getView(int position, View convertView, ViewGroup parent) {
+		synchronized (this) {
+			
+		
 		ViewHolder holder = null;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.list_item, null);
@@ -140,8 +145,10 @@ public class ListAdapterB extends BaseAdapter {
 			holder.item_data7.setTextColor(Color.RED);
 			holder.item_data8.setTextColor(Color.RED);
 		}
-
+		
+		activity.getDisplayList(mListView, activity.datasB);
 		return convertView;
+		}
 	}
 
 	private class ViewHolder {

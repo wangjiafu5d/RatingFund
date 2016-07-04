@@ -56,14 +56,15 @@ public class FragmentM extends Fragment implements OnClickListener{
 	public RadioButton fund_m_tradeMoney_button;
 	public RadioButton fund_m_sprice_discount_button;
 	public RadioButton fund_m_bprice_discount_button;
-	public RadioButton  fund_m_checkedButton;
+	public RadioButton fund_m_checkedButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view =inflater.inflate(R.layout.fragment_m, container, false);
 		fund_m_radioButton_list = new ArrayList<RadioButton>();
 		
-		listView = (ListView) view.findViewById(R.id.scroll_list_m);		
+		listView = (ListView) view.findViewById(R.id.scroll_list_m);
+		
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -77,7 +78,8 @@ public class FragmentM extends Fragment implements OnClickListener{
 		});
 
 		main = (MainActivity) getActivity();
-
+		main.mListViewM = listView;
+		
 		adapterM = new ListAdapterM(main,main.datasM);
 		main.adapterM = adapterM;
 		listView.setAdapter(adapterM);
