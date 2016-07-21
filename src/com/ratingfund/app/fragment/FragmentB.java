@@ -26,14 +26,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class FragmentB extends Fragment implements OnClickListener{
@@ -83,6 +86,27 @@ public class FragmentB extends Fragment implements OnClickListener{
 		adapterB = new ListAdapterB(main, main.mHScrollViewsB, mListViewB,main.datasB);
 		main.adapterB = adapterB;
 		mListViewB.setAdapter(adapterB);
+		mListViewB.setOnScrollListener(new OnScrollListener() {
+			
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				for(int i = 0;i<visibleItemCount;i++){
+					LinearLayout item = (LinearLayout) mListViewB.getChildAt(i);
+					CHScrollView temp = (CHScrollView) item.findViewById(R.id.item_scroll);
+					if(!main.mHScrollViewsB.contains(temp)){
+						main.mHScrollViewsB.add(temp);
+						temp.setScrollViewListener(main);
+						temp.scrollTo(main.mHScrollViewsB.get(0).getScrollX(), 0);
+					}
+				}
+
+
+			}
+		});
 //		main.setDatasB();
 		b_sortRadioGroup = (RadioGroup) view.findViewById(R.id.sort_radio_group_b);
 		fund_b_code_button = (RadioButton) view.findViewById(R.id.fund_b_code_button);

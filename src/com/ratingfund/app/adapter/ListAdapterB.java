@@ -33,7 +33,7 @@ public class ListAdapterB extends BaseAdapter {
 	private LayoutInflater inflater;
 	private List<CHScrollView> mHScrollViewsB;
 	private ListView mListView;
-	private Context context;
+//	private Context context;
 	private MainActivity activity;
 	public long lastTime;
 	public boolean flag = true;
@@ -67,6 +67,7 @@ public class ListAdapterB extends BaseAdapter {
 		synchronized (this) {
 			flag = false;
 			super.notifyDataSetChanged();
+			
 		}
 	}
 	@Override

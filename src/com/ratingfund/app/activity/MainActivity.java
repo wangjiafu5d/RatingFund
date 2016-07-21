@@ -56,7 +56,7 @@ import android.graphics.Color;
 
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -393,7 +393,17 @@ public class MainActivity extends Activity implements OnClickListener,ScrollView
 			
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				
+				for(int i = 0;i<visibleItemCount;i++){
+					LinearLayout item = (LinearLayout) mListView.getChildAt(i);
+					CHScrollView temp = (CHScrollView) item.findViewById(R.id.item_scroll);
+					if(!mHScrollViews.contains(temp)){
+						mHScrollViews.add(temp);
+						temp.setScrollViewListener(MainActivity.this);
+						temp.scrollTo(mHScrollViews.get(0).getScrollX(), 0);
+					}
+				}
+
+
 			}
 		});
 //		refreshListView();
